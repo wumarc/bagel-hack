@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proactive Networking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h2>Proactive Networking</h2>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Connect With The Right People</h1>
+        <p>Our AI assistant helps you discover the best networking events tailored to your professional interests and career goals.</p>
+        <button class="btn" id="startChatButton">Find Events Now</button>
+    </section>
+
+    <div class="container">
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-user-tie feature-icon"></i>
+                <h3>Industry-Targeted Events</h3>
+                <p>Discover networking opportunities specifically matched to your industry and professional interests.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-building feature-icon"></i>
+                <h3>Build Valuable Connections</h3>
+                <p>Connect with like-minded professionals, potential mentors, and industry leaders who can help advance your career.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-map-marker-alt feature-icon"></i>
+                <h3>Local & Global Reach</h3>
+                <p>Find events in your preferred location or explore virtual networking opportunities with global reach.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Button -->
+    <div class="chat-button" id="chatButton">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <span>Networking Event Finder</span>
+            <button class="close-chat" id="closeChat">×</button>
+        </div>
+        <div class="chat-messages" id="messages">
+            <!-- Messages will be added here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button id="sendMessage">Send</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Proactive Networking. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample responses for the chatbot
+        const initialGreeting = "Hello! 👋 I'm your networking assistant. I'll help you find the best events to connect with people who share your professional interests. Could you tell me about your profession or industry?";
+        
+        const chatStates = {
+            initial: {
+                question: "What is your profession or industry?",
+                nextState: "interests",
+                required: true,
+                dataKey: "profession"
+            },
+            interests: {
+                question: "Great! What specific professional interests or topics would you like to connect with others about?",
+                nextState: "experience",
+                required: true,
+                dataKey: "interests"
+            },
+            experience: {
+                question: "How many years of experience do you have in your field?",
+                nextState: "location",
+                required: true,
+                dataKey: "experience"
+            },
+            location: {
+                question: "Where would you prefer to attend networking events? Please be specific about city/region, or mention if you're interested in virtual events.",
+                nextState: "additionalInfo",
+                required: true,
+                dataKey: "location"
+            },
+            additionalInfo: {
+                question: "I have the essential information now. Would you like to add any preferences about event types (conferences, workshops, meetups), event size, or other details? Or type 'no' if you're ready for a summary.",
+                nextState: "completed",
+                required: false,
+                dataKey: "additionalInfo"
+            },
+            completed: {
+                question: "Thank you for providing your information. Here's a summary of your networking preferences:",
+                nextState: null,
+                required: false,
+                dataKey: null
+            },
+            modifying: {
+                question: "What information would you like to change? Please specify: profession, interests, experience, location, or additional preferences.",
+                nextState: null,
+                required: true,
+                dataKey: null
+            },
+            askingForNewSearch: {
+                question: "Would you like to find different networking events with new criteria?",
+                nextState: null,
+                required: false,
+                dataKey: null
+            }
+        };
+
+        // Required information tracking
+        const requiredFields = ["profession", "interests", "experience", "location"];
+        
+        let currentState = "initial";
+        let userProfile = {
+            profession: "",
+            interests: "",
+            experience: "",
+            location: "",
+            additionalInfo: ""
+        };
+
+        // Chat Elements
+        const chatButton = document.getElementById('chatButton');
+        const startChatButton = document.getElementById('startChatButton');
+        const chatContainer = document.getElementById('chatContainer');
+        const closeChat = document.getElementById('closeChat');
+        const messagesContainer = document.getElementById('messages');
+        const userInput = document.getElementById('userInput');
+        const sendMessage = document.getElementById('sendMessage');
+
+        // Event Listeners
+        chatButton.addEventListener('click', toggleChat);
+        startChatButton.addEventListener('click', startChat);
+        closeChat.addEventListener('click', toggleChat);
+        sendMessage.addEventListener('click', handleSendMessage);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSendMessage();
+            }
+        });
+
+        // Functions
+        function toggleChat() {
+            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function startChat() {
+            chatContainer.style.display = 'flex';
+            if (messagesContainer.children.length === 0) {
+                addBotMessage(initialGreeting);
+            }
+        }
+
+        function addBotMessage(text) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'bot-message');
+            messageElement.textContent = text;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'user-message');
+            messageElement.textContent = text;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function handleSendMessage() {
+            const text = userInput.value.trim();
+            if (text) {
+                addUserMessage(text);
+                userInput.value = '';
+                
+                // Process user message based on current state
+                processUserMessage(text);
+            }
+        }
+
+        function checkAllRequiredFieldsFilled() {
+            for (const field of requiredFields) {
+                if (!userProfile[field]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function processUserMessage(message) {
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('message', 'bot-message');
+            typingIndicator.innerHTML = 'Typing<span class="loader"></span>';
+            messagesContainer.appendChild(typingIndicator);
+            
+            // Simulate processing time
+            setTimeout(() => {
+                messagesContainer.removeChild(typingIndicator);
+                
+                // If in completed state, check if user wants to modify information
+                if (currentState === "completed") {
+                    const lowerMsg = message.toLowerCase();
+                    if (lowerMsg.includes("change") || 
+                        lowerMsg.includes("modify") || 
+                        lowerMsg.includes("update") || 
+                        lowerMsg.includes("edit") ||
+                        lowerMsg.includes("different")) {
+                        
+                        // Ask which information to change
+                        addBotMessage("What information would you like to change? Please specify: profession, interests, experience, location, or additional preferences.");
+                        currentState = "modifying";
+                    } else if (lowerMsg.includes("yes") || 
+                               lowerMsg.includes("looks good") || 
+                               lowerMsg.includes("correct") || 
+                               lowerMsg.includes("proceed") || 
+                               lowerMsg.includes("find events")) {
+                        
+                        // Proceed with search
+                        addBotMessage("Great! I'm finding networking events that match your interests. I'll have recommendations for you shortly.");
+                        
+                        // Simulate search time
+                        setTimeout(() => {
+                            addBotMessage("Based on your profile, here are some networking events you might be interested in:");
+                            
+                            // Generate event recommendations based on profile
+                            generateEventRecommendations();
+                            
+                            // Add option to start a new search
+                            setTimeout(() => {
+                                addBotMessage("Would you like to explore networking events based on different criteria?");
+                                currentState = "askingForNewSearch";
+                            }, 1500);
+                        }, 2000);
+                    } else {
+                        // Default response
+                        addBotMessage("I'm not sure if you want to proceed with these criteria or make changes. If everything looks good, let me know and I'll find matching networking events. If you want to change something, please tell me which part you'd like to modify.");
+                    }
+                    return;
+                }
+                
+                // If in modifying state, determine what to change
+                if (currentState === "modifying") {
+                    const lowerMsg = message.toLowerCase();
+                    if (lowerMsg.includes("profession") || lowerMsg.includes("industry")) {
+                        currentState = "initial";
+                        addBotMessage("Please tell me about your profession or industry.");
+                    } else if (lowerMsg.includes("interest")) {
+                        currentState = "interests";
+                        addBotMessage("What specific professional interests or topics would you like to connect with others about?");
+                    } else if (lowerMsg.includes("experience")) {
+                        currentState = "experience";
+                        addBotMessage("How many years of experience do you have in your field?");
+                    } else if (lowerMsg.includes("location")) {
+                        currentState = "location";
+                        addBotMessage("Where would you prefer to attend networking events? Please be specific about city/region, or mention if you're interested in virtual events.");
+                    } else if (lowerMsg.includes("additional") || lowerMsg.includes("preferences") || lowerMsg.includes("event type")) {
+                        currentState = "additionalInfo";
+                        addBotMessage("What preferences do you have about event types (conferences, workshops, meetups), event size, or other details?");
+                    } else {
+                        addBotMessage("I'm not sure which information you want to change. Please specify one of these: profession, interests, experience, location, or additional preferences.");
+                    }
+                    return;
+                }
+                
+                // If in askingForNewSearch state, check if user wants to start over
+                if (currentState === "askingForNewSearch") {
+                    const lowerMsg = message.toLowerCase();
+                    if (lowerMsg.includes("yes") || 
+                        lowerMsg.includes("sure") || 
+                        lowerMsg.includes("start") || 
+                        lowerMsg.includes("new") || 
+                        lowerMsg.includes("different")) {
+                        
+                        // Reset all user data
+                        userProfile = {
+                            profession: "",
+                            interests: "",
+                            experience: "",
+                            location: "",
+                            additionalInfo: ""
+                        };
+                        
+                        // Start from the beginning
+                        currentState = "initial";
+                        addBotMessage("Let's find different networking events. What is your profession or industry?");
+                    } else if (lowerMsg.includes("no") || 
+                              lowerMsg.includes("nope") || 
+                              lowerMsg.includes("that's all")) {
+                        
+                        addBotMessage("Alright! I hope you find these networking events valuable for building your professional connections. Feel free to return anytime you're looking for new networking opportunities.");
+                    } else {
+                        addBotMessage("I'm not sure if you want to search for different events. Please let me know by saying 'yes' if you'd like to start with new criteria, or 'no' if you're satisfied with the current recommendations.");
+                    }
+                    return;
+                }
+                
+                // Store user response based on current state
+                if (currentState !== "completed" && chatStates[currentState].dataKey) {
+                    userProfile[chatStates[currentState].dataKey] = message;
+                }
+                
+                // Handle 'no' response in additional info state
+                if (currentState === "additionalInfo" && 
+                    (message.toLowerCase() === "no" || 
+                     message.toLowerCase() === "nope" || 
+                     message.toLowerCase() === "that's all" || 
+                     message.toLowerCase() === "that's it")) {
+                    userProfile.additionalInfo = "No additional preferences specified.";
+                }
+                
+                // Move to next state
+                const nextState = chatStates[currentState].nextState;
+                
+                // If we're in additionalInfo state and all required fields are filled
+                if (currentState === "additionalInfo" && checkAllRequiredFieldsFilled()) {
+                    currentState = "completed";
+                    generateSummary();
+                } else if (nextState) {
+                    currentState = nextState;
+                    addBotMessage(chatStates[currentState].question);
+                }
+            }, 1000);
+        }
+
+        function generateSummary() {
+            // Create and display summary
+            const summaryMessage = `
+Here's a summary of your networking preferences:
+
+• Profession/Industry: ${userProfile.profession}
+• Professional Interests: ${userProfile.interests}
+• Experience Level: ${userProfile.experience}
+• Preferred Location: ${userProfile.location}
+${userProfile.additionalInfo && userProfile.additionalInfo !== "No additional preferences specified." ? "• Additional Preferences: " + userProfile.additionalInfo : ""}
+
+I'll use this information to find the best networking events for you to connect with relevant professionals. Is there anything you'd like to change before I proceed?`;
+            
+            addBotMessage(summaryMessage);
+            
+            // Add follow-up message
+            setTimeout(() => {
+                addBotMessage("If everything looks good, I'll find networking events that match your criteria so you can start building valuable connections.");
+            }, 2000);
+        }
+
+        function generateEventRecommendations() {
+            // Generate event recommendations based on user profile
+            const profession = userProfile.profession.toLowerCase();
+            const interests = userProfile.interests.toLowerCase();
+            const location = userProfile.location.toLowerCase();
+            
+            // Industry-specific events
+            if (profession.includes("tech") || profession.includes("software") || profession.includes("developer") || 
+                interests.includes("tech") || interests.includes("software") || interests.includes("programming")) {
+                
+                addBotMessage(`1. ${location.includes("virtual") ? "Virtual" : ""} Tech Connect Summit - A gathering of technology professionals discussing the latest industry trends. Perfect for networking with tech leaders and innovators.`);
+                
+                addBotMessage(`2. ${location.includes("virtual") ? "Online" : "Local"} Developer Meetup - Monthly casual gatherings for developers to exchange ideas and build professional connections.`);
+                
+            } else if (profession.includes("finance") || profession.includes("banking") || 
+                      interests.includes("finance") || interests.includes("investment")) {
+                
+                addBotMessage(`1. Financial Professionals Networking Forum - An exclusive ${location.includes("virtual") ? "virtual" : "in-person"} event for finance industry leaders to connect and discuss market trends.`);
+                
+                addBotMessage(`2. Investment Strategies Roundtable - A focused networking event with presentations and dedicated networking sessions.`);
+                
+            } else if (profession.includes("market") || profession.includes("sales") || 
+                      interests.includes("market") || interests.includes("digital market")) {
+                
+                addBotMessage(`1. Marketing Innovators Conference - Connect with creative marketing professionals and industry pioneers in ${location}.`);
+                
+                addBotMessage(`2. Sales & Marketing Professionals Mixer - Monthly networking events focused on relationship building and lead generation strategies.`);
+                
+            } else {
+                // Generic recommendations based on location
+                addBotMessage(`1. Professional Networking Association Meetup in ${location} - Regular events bringing together professionals from diverse backgrounds.`);
+                
+                addBotMessage(`2. Industry Insights Conference - A major ${location.includes("virtual") ? "virtual" : "in-person"} event with keynote speakers and structured networking sessions.`);
+            }
+            
+            // Universal recommendation
+            addBotMessage(`3. Cross-Industry Networking Event - Connect with professionals from various fields to expand your network beyond your immediate industry. ${location.includes("virtual") ? "Hosted virtually with breakout rooms for focused conversations." : "Features speed networking and open discussion forums."}`);
+        }
+    </script>
+</body>
+</html> 
