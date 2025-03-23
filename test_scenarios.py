@@ -101,4 +101,4 @@ multiple_info_test = {
 }
 
 print("Test scenarios ready for manual verification")
-print("Run the application with 'streamlit run app.py' and use these sample inputs to test") 
+print("Run the application with 'streamlit run app.py' and use these sample inputs to test")
