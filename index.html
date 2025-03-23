@@ -8,65 +8,202 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Center chatbot layout */
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f3f7; /* Light background for the entire page */
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .chat-section {
+            width: 100%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 75vh; /* Tall enough but not full screen */
+        }
+
+        .chat-header {
+            background-color: #1a4f7c;
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background-color: white;
+            width: 100%;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 20px 30px;
+            background-color: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chat-input-container {
+            width: 100%;
+            display: flex;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            margin-right: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            border-color: #1e88e5;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+        }
+
+        .chat-input button {
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            background-color: #1976d2;
+        }
+
+        #messages {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .bot-message {
+            background-color: #f0f4f8;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+            color: #333;
+        }
+
+        .user-message {
+            background-color: #1e88e5;
+            color: white;
+            border-bottom-right-radius: 5px;
+            align-self: flex-end;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .chat-section {
+                height: 80vh;
+                border-radius: 12px;
+            }
+            
+            .chat-messages {
+                padding: 20px;
+            }
+            
+            .message {
+                max-width: 85%;
+                padding: 14px 18px;
+            }
+            
+            .chat-input {
+                padding: 15px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        header {
+            padding: 15px 0;
+            background-color: #1a4f7c;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        #navTitle {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h2 id="navTitle">Proactive Networking</h2>
-        </div>
-    </header>
-
-    <section class="hero">
-        <h1>Connect With The Right People</h1>
-        <p>Our AI assistant helps you discover the best networking events tailored to your professional interests and career goals.</p>
-        <button class="btn" id="startChatButton">Find Events Now</button>
-    </section>
-
-    <div class="container">
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-user-tie feature-icon"></i>
-                <h3>Industry-Targeted Events</h3>
-                <p>Discover networking opportunities specifically matched to your industry and professional interests.</p>
+    <div class="page-container">
+        <header>
+            <div class="container">
+                <h2 id="navTitle">Proactive Networking</h2>
             </div>
-            <div class="feature">
-                <i class="fas fa-building feature-icon"></i>
-                <h3>Build Valuable Connections</h3>
-                <p>Connect with like-minded professionals, potential mentors, and industry leaders who can help advance your career.</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Centered Chat Interface -->
+            <section class="chat-section">
+
+                <div class="chat-messages" id="messages">
+                    <!-- Messages will be added here by JavaScript -->
+                </div>
+                <div class="chat-input">
+                    <div class="chat-input-container">
+                        <input type="text" id="userInput" placeholder="Type your message..." />
+                        <button id="sendMessage">Send</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2023 Proactive Networking. All rights reserved.</p>
             </div>
-            <div class="feature">
-                <i class="fas fa-map-marker-alt feature-icon"></i>
-                <h3>Local & Global Reach</h3>
-                <p>Find events in your preferred location or explore virtual networking opportunities with global reach.</p>
-            </div>
-        </div>
+        </footer>
     </div>
-
-    <!-- Chat Button -->
-    <div class="chat-button" id="chatButton">
-        <i class="fas fa-comments"></i>
-    </div>
-
-    <!-- Chat Container -->
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-header">
-            <span>Networking Event Finder</span>
-            <button class="close-chat" id="closeChat">×</button>
-        </div>
-        <div class="chat-messages" id="messages">
-            <!-- Messages will be added here -->
-        </div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your message..." />
-            <button id="sendMessage">Send</button>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Proactive Networking. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script>
         // Sample responses for the chatbot
@@ -136,18 +273,11 @@
         };
 
         // Chat Elements
-        const chatButton = document.getElementById('chatButton');
-        const startChatButton = document.getElementById('startChatButton');
-        const chatContainer = document.getElementById('chatContainer');
-        const closeChat = document.getElementById('closeChat');
         const messagesContainer = document.getElementById('messages');
         const userInput = document.getElementById('userInput');
         const sendMessage = document.getElementById('sendMessage');
 
         // Event Listeners
-        chatButton.addEventListener('click', toggleChat);
-        startChatButton.addEventListener('click', startChat);
-        closeChat.addEventListener('click', toggleChat);
         sendMessage.addEventListener('click', handleSendMessage);
         userInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -155,18 +285,15 @@
             }
         });
 
+        // Initialize chat when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display initial greeting
+            addBotMessage(initialGreeting);
+            // Focus on input field
+            userInput.focus();
+        });
+
         // Functions
-        function toggleChat() {
-            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function startChat() {
-            chatContainer.style.display = 'flex';
-            if (messagesContainer.children.length === 0) {
-                addBotMessage(initialGreeting);
-            }
-        }
-
         function addBotMessage(text) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', 'bot-message');
@@ -237,17 +364,13 @@
                         
                         // Simulate search time
                         setTimeout(() => {
-                            addBotMessage("Based on your profile, here are some networking events you might be interested in:");
-                            
-                            // Generate event recommendations based on profile
-                            generateEventRecommendations();
-                            
-                            // Add option to start a new search
+                            // generateEventRecommendations();
+
+                            // Redirect to relevant-events.html page
                             setTimeout(() => {
-                                addBotMessage("Would you like to explore networking events based on different criteria?");
-                                currentState = "askingForNewSearch";
+                                window.location.href = 'relevant-events.html';
                             }, 1500);
-                        }, 2000);
+                        }, 1000);
                     } else {
                         // Default response
                         addBotMessage("I'm not sure if you want to proceed with these criteria or make changes. If everything looks good, let me know and I'll find matching networking events. If you want to change something, please tell me which part you'd like to modify.");
@@ -339,65 +462,8 @@
             }, 1000);
         }
 
-        function generateSummary() {
-            // Create and display summary
-            const summaryMessage = `
-Here's a summary of your networking preferences:
 
-• Profession/Industry: ${userProfile.profession}
-• Professional Interests: ${userProfile.interests}
-• Experience Level: ${userProfile.experience}
-• Preferred Location: ${userProfile.location}
-${userProfile.additionalInfo && userProfile.additionalInfo !== "No additional preferences specified." ? "• Additional Preferences: " + userProfile.additionalInfo : ""}
 
-I'll use this information to find the best networking events for you to connect with relevant professionals. Is there anything you'd like to change before I proceed?`;
-            
-            addBotMessage(summaryMessage);
-            
-            // Add follow-up message
-            setTimeout(() => {
-                addBotMessage("If everything looks good, I'll find networking events that match your criteria so you can start building valuable connections.");
-            }, 2000);
-        }
-
-        function generateEventRecommendations() {
-            // Generate event recommendations based on user profile
-            const profession = userProfile.profession.toLowerCase();
-            const interests = userProfile.interests.toLowerCase();
-            const location = userProfile.location.toLowerCase();
-            
-            // Industry-specific events
-            if (profession.includes("tech") || profession.includes("software") || profession.includes("developer") || 
-                interests.includes("tech") || interests.includes("software") || interests.includes("programming")) {
-                
-                addBotMessage(`1. ${location.includes("virtual") ? "Virtual" : ""} Tech Connect Summit - A gathering of technology professionals discussing the latest industry trends. Perfect for networking with tech leaders and innovators.`);
-                
-                addBotMessage(`2. ${location.includes("virtual") ? "Online" : "Local"} Developer Meetup - Monthly casual gatherings for developers to exchange ideas and build professional connections.`);
-                
-            } else if (profession.includes("finance") || profession.includes("banking") || 
-                      interests.includes("finance") || interests.includes("investment")) {
-                
-                addBotMessage(`1. Financial Professionals Networking Forum - An exclusive ${location.includes("virtual") ? "virtual" : "in-person"} event for finance industry leaders to connect and discuss market trends.`);
-                
-                addBotMessage(`2. Investment Strategies Roundtable - A focused networking event with presentations and dedicated networking sessions.`);
-                
-            } else if (profession.includes("market") || profession.includes("sales") || 
-                      interests.includes("market") || interests.includes("digital market")) {
-                
-                addBotMessage(`1. Marketing Innovators Conference - Connect with creative marketing professionals and industry pioneers in ${location}.`);
-                
-                addBotMessage(`2. Sales & Marketing Professionals Mixer - Monthly networking events focused on relationship building and lead generation strategies.`);
-                
-            } else {
-                // Generic recommendations based on location
-                addBotMessage(`1. Professional Networking Association Meetup in ${location} - Regular events bringing together professionals from diverse backgrounds.`);
-                
-                addBotMessage(`2. Industry Insights Conference - A major ${location.includes("virtual") ? "virtual" : "in-person"} event with keynote speakers and structured networking sessions.`);
-            }
-            
-            // Universal recommendation
-            addBotMessage(`3. Cross-Industry Networking Event - Connect with professionals from various fields to expand your network beyond your immediate industry. ${location.includes("virtual") ? "Hosted virtually with breakout rooms for focused conversations." : "Features speed networking and open discussion forums."}`);
-        }
     </script>
 </body>
 </html> 
