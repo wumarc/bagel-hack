@@ -101,6 +101,189 @@
         .connect-btn:hover {
             background-color: #1976d2;
         }
+
+        .personality-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .disc-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a4f7c;
+            margin-bottom: 12px;
+        }
+
+        .disc-bars, .disc-bar, .d-bar, .i-bar, .s-bar, .c-bar {
+            display: none;
+        }
+
+        .disc-chart-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .disc-chart {
+            width: 110px;
+            height: 110px;
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .disc-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #f5f5f5;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .disc-quadrant {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+        }
+
+        .quadrant-d {
+            top: 0;
+            left: 0;
+            background-color: rgba(229, 57, 53, 0.85);
+        }
+
+        .quadrant-i {
+            top: 0;
+            right: 0;
+            background-color: rgba(255, 179, 0, 0.85);
+        }
+
+        .quadrant-s {
+            bottom: 0;
+            right: 0;
+            background-color: rgba(67, 160, 71, 0.85);
+        }
+
+        .quadrant-c {
+            bottom: 0;
+            left: 0;
+            background-color: rgba(30, 136, 229, 0.85);
+        }
+
+        .intensity-overlay {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+        }
+
+        .d-overlay {
+            top: 0;
+            left: 0;
+            right: 50%;
+            bottom: 50%;
+        }
+
+        .i-overlay {
+            top: 0;
+            left: 50%;
+            right: 0;
+            bottom: 50%;
+        }
+
+        .s-overlay {
+            top: 50%;
+            left: 50%;
+            right: 0;
+            bottom: 0;
+        }
+
+        .c-overlay {
+            top: 50%;
+            left: 0;
+            right: 50%;
+            bottom: 0;
+        }
+
+        .disc-center {
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            background: white;
+            border-radius: 50%;
+            top: 30%;
+            left: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            border: 2px solid #f5f5f5;
+        }
+
+        .disc-letters {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #1a4f7c;
+        }
+
+        .disc-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            line-height: 1.2;
+        }
+
+        .legend-color {
+            min-width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        .legend-d { background-color: #e53935; }
+        .legend-i { background-color: #ffb300; }
+        .legend-s { background-color: #43a047; }
+        .legend-c { background-color: #1e88e5; }
+
+        .disc-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .disc-letter {
+            font-weight: bold;
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            margin-right: 8px;
+        }
+
+        .letter-d { background-color: #e53935; }
+        .letter-i { background-color: #ffb300; }
+        .letter-s { background-color: #43a047; }
+        .letter-c { background-color: #1e88e5; }
+
+        .approach-tips {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+            background-color: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 3px solid #1e88e5;
+        }
     </style>
 </head>
 <body>
@@ -114,49 +297,157 @@
         <div class="people-list">
             <!-- Person 1 -->
             <div class="person-card">
-                <img src="https://media.licdn.com/dms/image/v2/D5603AQE3_ITD2ugwoA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1711033817530?e=1747872000&v=beta&t=STptHCQno4MgWsc56gwh4_U-73lK2w2q7K0vJtpnKG4" alt="Paul Chen" class="profile-image">
+                <img src="https://media.licdn.com/dms/image/v2/C4E03AQHs3b8fUMX42g/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1614878866743?e=1748476800&v=beta&t=6wl8Ms7bvOwtf0xTM3dNV_vEHGNvJ1RkKjChfoJ8GTs" alt="Paul Chen" class="profile-image">
                 <div class="person-info">
                     <h2 class="person-name">Paul Chen</h2>
-                    <div class="person-title">Senior Software Engineer at Tech Corp</div>
-                    <p class="person-bio">Full-stack developer with 8 years of experience in building scalable web applications. Passionate about mentoring and open source contributions.</p>
+                    <div class="person-title">Senior Director, Trade and Channel Management</div>
+                    <p class="person-bio">Paul is a seasoned trade and channel management professional with a strong background in building and scaling successful B2B partnerships. He has a deep understanding of the channel ecosystem and the needs of both manufacturers and distributors.</p>
                     <div class="person-tags">
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">React</span>
-                        <span class="tag">Node.js</span>
+                        <span class="tag">Trade Management</span>
+                        <span class="tag">Channel Strategy</span>
+                        <span class="tag">B2B Partnerships</span>
                     </div>
-                    <button class="connect-btn">Connect</button>
+                    
+                    <!-- DISC Personality Section with Circular Chart -->
+                    <div class="personality-section">
+                        <div class="disc-title">DISC Profile: DC (Dominant-Conscientious)</div>
+                        <div class="disc-chart-container">
+                            <div class="disc-chart">
+                                <div class="disc-circle">
+                                    <!-- Base quadrants -->
+                                    <div class="disc-quadrant quadrant-d"></div>
+                                    <div class="disc-quadrant quadrant-i"></div>
+                                    <div class="disc-quadrant quadrant-s"></div>
+                                    <div class="disc-quadrant quadrant-c"></div>
+                                    
+                                    <!-- Balanced values that add to 100% with one area more dominant -->
+                                    <div class="intensity-overlay d-overlay" style="opacity: 0.2;"></div> <!-- 50% D -->
+                                    <div class="intensity-overlay i-overlay" style="opacity: 0.8;"></div> <!-- 20% I -->
+                                    <div class="intensity-overlay s-overlay" style="opacity: 0.85;"></div> <!-- 15% S -->
+                                    <div class="intensity-overlay c-overlay" style="opacity: 0.85;"></div> <!-- 15% C -->
+                                    
+                                    <div class="disc-center">
+                                        <div class="disc-letters">DC</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="disc-legend">
+                                <div class="legend-item"><div class="legend-color legend-d"></div> Dominance: Direct, Results-focused (50%)</div>
+                                <div class="legend-item"><div class="legend-color legend-i"></div> Influence: Outgoing, Enthusiastic (20%)</div>
+                                <div class="legend-item"><div class="legend-color legend-s"></div> Steadiness: Patient, Loyal (15%)</div>
+                                <div class="legend-item"><div class="legend-color legend-c"></div> Conscientiousness: Analytical, Detailed (15%)</div>
+                            </div>
+                        </div>
+                        <p class="approach-tips">
+                            <strong>How to approach:</strong> Be direct and well-prepared. Focus on facts, results, and efficiency. Come with organized information and clear objectives. Avoid small talk and stick to business topics.
+                        </p>
+                    </div>
+                    
+                    <button class="connect-btn" onclick="window.location.href='https://www.linkedin.com/in/paulchen'">Connect</button>
                 </div>
             </div>
 
             <!-- Person 2 -->
             <div class="person-card">
-                <img src="https://media.licdn.com/dms/image/v2/D4E03AQH2LCxJaJCLew/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1667177434657?e=1747872000&v=beta&t=8Xq2JBh3dOK5-mGcX1hC2zeHXzqYk7edK8voUqI-QGg" alt="Marcus Johnson" class="profile-image">
+                <img src="https://media.licdn.com/dms/image/v2/C5603AQHuGcd55CykoQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1625626391273?e=1748476800&v=beta&t=9LWvi3-q_L8hK8pcX2q83wQ33ocGgIPkHkXRAQNBb70" alt="Marcus Johnson" class="profile-image">
                 <div class="person-info">
-                    <h2 class="person-name">Marcus Johnson</h2>
-                    <div class="person-title">Product Manager at Innovation Hub</div>
-                    <p class="person-bio">Strategic product leader with experience in launching successful B2B products. Focus on AI and machine learning applications.</p>
+                    <h2 class="person-name">Gautam Gupta</h2>
+                    <div class="person-title">Co-founder at Highbeam</div>
+                    <p class="person-bio">Gautam is a seasoned product leader with a strong background in building and scaling successful B2B partnerships. He has a deep understanding of the channel ecosystem and the needs of both manufacturers and distributors.</p>
                     <div class="person-tags">
-                        <span class="tag">Product Strategy</span>
-                        <span class="tag">AI/ML</span>
-                        <span class="tag">Leadership</span>
+                        <span class="tag">Product Management</span>
+                        <span class="tag">User Experience</span>
+                        <span class="tag">Software Development</span>
                     </div>
-                    <button class="connect-btn">Connect</button>
+                    
+                    <!-- DISC Personality Section with Circular Chart -->
+                    <div class="personality-section">
+                        <div class="disc-title">DISC Profile: ID (Influential-Dominant)</div>
+                        <div class="disc-chart-container">
+                            <div class="disc-chart">
+                                <div class="disc-circle">
+                                    <!-- Base quadrants -->
+                                    <div class="disc-quadrant quadrant-d"></div>
+                                    <div class="disc-quadrant quadrant-i"></div>
+                                    <div class="disc-quadrant quadrant-s"></div>
+                                    <div class="disc-quadrant quadrant-c"></div>
+                                    
+                                    <!-- Balanced values that add to 100% -->
+                                    <div class="intensity-overlay d-overlay" style="opacity: 0.3;"></div> <!-- 70% D -->
+                                    <div class="intensity-overlay i-overlay" style="opacity: 0.1;"></div> <!-- 20% I -->
+                                    <div class="intensity-overlay s-overlay" style="opacity: 0.95;"></div> <!-- 5% S -->
+                                    <div class="intensity-overlay c-overlay" style="opacity: 0.95;"></div> <!-- 5% C -->
+                                    
+                                    <div class="disc-center">
+                                        <div class="disc-letters">ID</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="disc-legend">
+                                <div class="legend-item"><div class="legend-color legend-d"></div> Dominance: Direct, Results-focused (70%)</div>
+                                <div class="legend-item"><div class="legend-color legend-i"></div> Influence: Outgoing, Enthusiastic (20%)</div>
+                                <div class="legend-item"><div class="legend-color legend-s"></div> Steadiness: Patient, Loyal (5%)</div>
+                                <div class="legend-item"><div class="legend-color legend-c"></div> Conscientiousness: Analytical, Detailed (5%)</div>
+                            </div>
+                        </div>
+                        <p class="approach-tips">
+                            <strong>How to approach:</strong> Be enthusiastic and engaging. Allow time for social conversation before business. Share innovative ideas and focus on the big picture. Provide testimonials and stories that show social proof of success.
+                        </p>
+                    </div>
+                    
+                    <button class="connect-btn" onclick="window.location.href='https://www.linkedin.com/in/gautamgpt/'">Connect</button>
                 </div>
             </div>
 
             <!-- Person 3 -->
             <div class="person-card">
-                <img src="https://media.licdn.com/dms/image/v2/C4D03AQHlSsBGLqW-aA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1632320556977?e=1747872000&v=beta&t=Mp8NWM_bZxD88GSO6jLwTlHMZZTP_NHWLolcAk1FHI0" alt="James Wong" class="profile-image">
+                <img src="https://media.licdn.com/dms/image/v2/D5603AQE0ewIlm9lcnw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710614774744?e=1748476800&v=beta&t=vnoVUdzO1mkWlDqltccv6Q0PTWhFvKd26Z_rnx6KCyg" alt="James Wong" class="profile-image">
                 <div class="person-info">
-                    <h2 class="person-name">James Wong</h2>
-                    <div class="person-title">UX Design Lead at Design Studio</div>
-                    <p class="person-bio">Creative design leader specializing in user-centered design approaches. Expert in design systems and accessibility.</p>
+                    <h2 class="person-name">Satya Devarakonda</h2>
+                    <div class="person-title">Co-founder, Scalekit - Auth built for B2B/SaaS | ex-Freshworks</div>
+                    <p class="person-bio">Satya is a seasoned product leader with a passion for building scalable and user-friendly software solutions. He has a strong background in product management and user experience design.</p>
                     <div class="person-tags">
-                        <span class="tag">UX Design</span>
-                        <span class="tag">Accessibility</span>
-                        <span class="tag">Design Systems</span>
+                        <span class="tag">Product Management</span>
+                        <span class="tag">User Experience</span>
+                        <span class="tag">Software Development</span>
                     </div>
-                    <button class="connect-btn">Connect</button>
+                    
+                    <!-- DISC Personality Section with Circular Chart -->
+                    <div class="personality-section">
+                        <div class="disc-title">DISC Profile: SC (Steady-Conscientious)</div>
+                        <div class="disc-chart-container">
+                            <div class="disc-chart">
+                                <div class="disc-circle">
+                                    <!-- Base quadrants -->
+                                    <div class="disc-quadrant quadrant-d"></div>
+                                    <div class="disc-quadrant quadrant-i"></div>
+                                    <div class="disc-quadrant quadrant-s"></div>
+                                    <div class="disc-quadrant quadrant-c"></div>
+                                    
+                                    <!-- Balanced values that add to 100% -->
+                                    <div class="intensity-overlay d-overlay" style="opacity: 0.9;"></div> <!-- 10% D -->
+                                    <div class="intensity-overlay i-overlay" style="opacity: 0.7;"></div> <!-- 30% I -->
+                                    <div class="intensity-overlay s-overlay" style="opacity: 0.15;"></div> <!-- 85% S -->
+                                    <div class="intensity-overlay c-overlay" style="opacity: 0.25;"></div> <!-- 75% C -->
+                                    
+                                    <div class="disc-center">
+                                        <div class="disc-letters">SC</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="disc-legend">
+                                <div class="legend-item"><div class="legend-color legend-d"></div> Dominance: Direct, Results-focused (10%)</div>
+                                <div class="legend-item"><div class="legend-color legend-i"></div> Influence: Outgoing, Enthusiastic (30%)</div>
+                                <div class="legend-item"><div class="legend-color legend-s"></div> Steadiness: Patient, Loyal (85%)</div>
+                                <div class="legend-item"><div class="legend-color legend-c"></div> Conscientiousness: Analytical, Detailed (75%)</div>
+                            </div>
+                        </div>
+                        <p class="approach-tips">
+                            <strong>How to approach:</strong> Be patient and sincere. Take time to build trust before pushing for decisions. Provide detailed information and explain how your ideas minimize risk. Show genuine interest in their thoughts and avoid putting them on the spot.
+                        </p>
+                    </div>
+                    
+                    <button class="connect-btn" onclick="window.location.href='https://www.linkedin.com/in/satyapd/'">Connect</button>
                 </div>
             </div>
         </div>
